@@ -14,8 +14,8 @@
     "extra": {
         "name": "PCM Integrations",
         "handle": "pcm-integrations",
-        "hasCpSettings": false,
-        "hasCpSection": false,
+        "hasCpSettings": true,
+        "hasCpSection": true,
         "class": "pinfirelabs\\pcmIntegrations\\Plugin"
     },
     "repositories": [

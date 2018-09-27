@@ -52,4 +52,14 @@ class Plugin extends BasePlugin
             \Craft::$app->view->registerTwigExtension(new twig\UpcomingEvents());
         }
     }
+
+    public function createSettingsModel() {
+        return new models\Settings();
+    }
+
+    public function settingsHtml() {
+        return \Craft::$app->getView()->renderTemplate('pcm-calendar-block/settings', [
+            'settings' => $this->getSettings()
+        ]);
+    }
 }
