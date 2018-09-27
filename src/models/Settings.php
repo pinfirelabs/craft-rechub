@@ -11,6 +11,6 @@ class Settings extends Model
     public function rules() {
         return [
             [['maxUpcomingEvents'], 'required']
-        ]
+        ];
     }
 }

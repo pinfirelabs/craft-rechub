@@ -9,16 +9,23 @@ class EquipmentInventory extends AbstractExtension
 {
     public function getFunctions()
     {
-        $cmApiServer = \Craft::$app->getGlobals()->getSetByHandle('siteInformation')->getFieldValue('pcmDomain');
-
-        $styleSheet = '/vendor/pinfirelabs/pcm-integrations/src/assets/main.css';
-        $script = '/vendor/pinfirelabs/pcm-integrations/src/assets/js/main.js';
-
         return [
             new \Twig_Function(
-                'equipment_inventory', 
+                'equipmentInventory', 
                 function() {
-                    return new \Twig_Markup('
+                    return new \Twig_Markup(<<<'HTML'
+                        <script type='text/template' class='equip-inv-line-template'>
+                            <li class='list-group-item'>
+                                <div class='indent'>
+                                </div>
+                                <div class='expander'>
+                                    <span class='plus glyphicon glyphicon-plus'></span>
+                                    <span class='minus glyphicon glyphicon-minus'></span>
+                                </div>
+                                <span class='txt'></span>
+                                <span class='label'></span>
+                            </li>
+                        </script>
                         <div class="equipment-inventory-container">
                             <div class="error hide alert alert-danger">
                                 <strong>Equipment Inventory Error!</strong> <div class="text"></div>
@@ -41,39 +48,8 @@ class EquipmentInventory extends AbstractExtension
                                 <div class="label"></div>
                             </div>
                         </div>
-                    ', 'utf-8');
-                }
-            ),
-            new \Twig_Function(
-                'equipment_inventory_header',
-                function() use($styleSheet, $script, $cmApiServer) {
-                    return new \Twig_Markup(
-                        "
-                            <link rel='stylesheet' type='text/css' href='$styleSheet' />
-                            <script src='https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.0/redux.min.js'></script>
-                            <script src='https://cdnjs.cloudflare.com/ajax/libs/redux-thunk/2.3.0/redux-thunk.min.js'></script>
-
-                            <script>
-                                window.cmApiServer = '$cmApiServer';
-                            </script>
-
-                            <script src='$script'></script>
-
-                            <script type='text/template' class='equip-inv-line-template'>
-                                <li class='list-group-item'>
-                                    <div class='indent'>
-                                    </div>
-                                    <div class='expander'>
-                                        <span class='plus glyphicon glyphicon-plus'></span>
-                                        <span class='minus glyphicon glyphicon-minus'></span>
-                                    </div>
-                                    <span class='txt'></span>
-                                    <span class='label'></span>
-                                </li>
-                            </script>
-                        ", 
-                        'utf-8'
-                    );
+HTML
+                    , 'utf-8');
                 }
             )
         ];

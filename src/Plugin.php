@@ -30,6 +30,10 @@ class Plugin extends BasePlugin
         parent::init();
         self::$plugin = $this;
 
+        $cmApiServer = \Craft::$app->getGlobals()->getSetByHandle('siteInformation')->getFieldValue('pcmDomain');
+
+        \Craft::$app->view->registerScript("window.cmApiServer = '{$cmApiServer}';");
+
         // upcoming event variable
         Event::on(
             CraftVariable::class,
@@ -58,7 +62,7 @@ class Plugin extends BasePlugin
     }
 
     public function settingsHtml() {
-        return \Craft::$app->getView()->renderTemplate('pcm-calendar-block/settings', [
+        return \Craft::$app->getView()->renderTemplate('pcm-integrations/settings', [
             'settings' => $this->getSettings()
         ]);
     }
