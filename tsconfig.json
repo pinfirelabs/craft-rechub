@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": false,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "outDir": "./src/assets/js/"
+    },
+    "include": [
+        "src/assets/ts/**/*"
+    ]
+}

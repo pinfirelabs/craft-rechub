@@ -1,0 +1,85 @@
+.glyphicon.equip-spinning {
+    animation: spin 1800ms infinite linear;
+    -webkit-animation: spin2 1800ms infinite linear;
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg); }
+    to { transform: scale(1) rotate(360deg); }
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+
+.equipment-inventory-container .loading {
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+.tree-container {
+    margin-left: 0;
+    padding-left: 0;
+    margin-top: 15px;
+}
+
+.tree-container li {
+    list-style-type: none;
+    display: flex;
+}
+
+
+.tree-container .indent-1 { width: 40px; }
+.tree-container .indent-2 { width: 60px; }
+.tree-container .indent-3 { width: 80px; }
+.tree-container .indent-4 { width: 100px; }
+
+.tree-container .expander {
+    width: 25px;
+}
+.tree-container .expander span {
+    display: none;
+    flex: 0;
+    cursor: pointer;
+}
+.tree-container .txt {
+    width: 30%
+}
+.tree-container .expander.plus .plus {
+    display: inherit;
+}
+
+.tree-container .expander.minus .minus {
+    display: inherit;
+}
+
+
+.tree-container .label-status-1 {
+	background-color: #3d763d;
+}
+
+.tree-container .label-status-2 {
+	background-color: #a94442;
+}
+
+.tree-container .label-status-3, .label-status-4 {
+	background-color: #8a6d3b;
+}
+
+.tree-container .label {
+    display: flex;
+    align-items: center;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+
+}
