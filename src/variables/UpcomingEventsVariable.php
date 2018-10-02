@@ -2,21 +2,48 @@
 
 namespace pinfirelabs\pcmIntegrations\variables;
 
+use Craft;
+use pinfirelabs\pcmIntegrations\Plugin;
+
 class upcomingEventsVariable {
-    public function latestEvents($limit) : array
+    public function latestEvents($limit = null, $pcmDomain = null) : array
 	{
-        
-        $cmApiServer = \Craft::$app->getGlobals()->getSetByHandle('siteInformation')->getFieldValue('pcmDomain');
+		if (!$limit)
+		{
+			$limit = Plugin::$plugin->getSettings()['maxUpcomingEvents'];
+		}
 
-        return \Craft::$app->cache->getOrSet(__METHOD__ . '-' . md5($cmApiServer), function() use ($cmApiServer, $limit) {
-            $res = makeServiceCall('GET', '/api/event?featured=1', [
-                "start" => (new \DateTime())->format(\DateTime::ATOM),
-                "pageSize" => $limit,
-            ]);
+		if (empty($pcmDomain))
+		{
+			$pcmDomain = Plugin::$plugin->getSettings()['pcmDomain'];
+		}
 
-            return array_map("self::makeFriendlyObj", $res);
-        }, 300);
-		
+		try
+		{
+        	return \Craft::$app->cache->getOrSet(
+				__METHOD__ . '-' . md5($pcmDomain),
+				function() use ($pcmDomain, $limit)
+				{
+					$res = Plugin::guzzle(
+						['base_uri' => $pcmDomain],
+						'GET', 
+						'/api/event?featured=1',
+						[
+							"start" => (new \DateTime())->format(\DateTime::ATOM),
+							"pageSize" => $limit,
+						]
+					);
+
+					return array_map("self::makeFriendlyObj", $res);
+				},
+				300
+			);
+		}
+		catch (\Exception $e)
+		{
+			Craft::error("Caught exception fetching events: {$e->getMessage()}", __METHOD__);
+			return [];
+		}
     }
     
 

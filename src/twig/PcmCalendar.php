@@ -5,16 +5,20 @@ namespace pinfirelabs\pcmIntegrations\twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use threelakessoftware\sharedEventsCalendar\CalendarMaker;
+use pinfirelabs\pcmIntegrations\Plugin;
 
 class PcmCalendar extends AbstractExtension
 {
     public function getFunctions()
     {
-        $cmApiServer = \Craft::$app->getGlobals()->getSetByHandle('siteInformation')->getFieldValue('pcmDomain');
-
         return [
-            new TwigFunction('pcmCalendarBlock', function($search) use($cmApiServer) {
-                $maker = new CalendarMaker($cmApiServer, $search);
+            new TwigFunction('pcmCalendarBlock', function($search, $pcmDomain = null) {
+				if (empty($pcmDomain))
+				{
+					$pcmDomain = Plugin::$plugin->getSettings()['pcmDomain'];
+				}
+				
+				$maker = new CalendarMaker($pcmDomain, $search);
 
                 return new \Twig_Markup(
                     <<<OUT

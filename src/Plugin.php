@@ -30,9 +30,9 @@ class Plugin extends BasePlugin
         parent::init();
         self::$plugin = $this;
 
-        $cmApiServer = \Craft::$app->getGlobals()->getSetByHandle('siteInformation')->getFieldValue('pcmDomain');
+		$pcmDomain = $this->getSettings()['pcmDomain'];
 
-        \Craft::$app->view->registerScript("window.cmApiServer = '{$cmApiServer}';");
+        \Craft::$app->view->registerScript("window.cmApiServer = '{$pcmDomain}';");
 
         // upcoming event variable
         Event::on(
@@ -66,4 +66,22 @@ class Plugin extends BasePlugin
             'settings' => $this->getSettings()
         ]);
     }
+	
+	public function guzzle(array $clientOptions, string $method, string $destination, array $request = [], $format = 'json')
+	{
+		$client = new \GuzzleHttp\Client($clientOptions);
+		$response = $client->request($method, $destination, $request);
+		if ($format == 'raw') {
+			$body = (string) $response->getBody();
+		} else {
+			$body = json_decode($response->getBody(), true);
+		}
+
+		if ($response->getStatusCode() != 200)
+		{
+			throw new \Exception("Status code {$response->getStatusCode()} fetching {$clientOptions['base_uri']}/{$destination}");
+		}
+
+		return $body;
+	}
 }

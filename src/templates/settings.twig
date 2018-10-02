@@ -2,6 +2,12 @@
 
 {{ forms.textField({
     first: true,
+    label: "Pinfire Club Manager Domain",
+    name: 'pcmDomain',
+    value: settings.pcmDomain
+}) }}
+
+{{ forms.numberField({
     label: "Max Upcoming Events",
     name: 'maxUpcomingEvents',
     value: settings.maxUpcomingEvents
