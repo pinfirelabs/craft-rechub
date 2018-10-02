@@ -15,7 +15,7 @@
         "name": "PCM Integrations",
         "handle": "pcm-integrations",
         "hasCpSettings": true,
-        "hasCpSection": true,
+        "hasCpSection": false,
         "class": "pinfirelabs\\pcmIntegrations\\Plugin"
     },
     "repositories": [
