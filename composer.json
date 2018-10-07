@@ -4,7 +4,7 @@
     "version": "1.0.2",
     "require": {
         "craftcms/cms": "^3.0.0-RC1",
-        "threelakessoftware/shared-events-calendar": "dev-master"
+        "threelakessoftware/shared-events-calendar": "dev-craft-integration"
     },
     "autoload": {
         "psr-4": {
