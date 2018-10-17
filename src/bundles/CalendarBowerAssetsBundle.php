@@ -5,14 +5,9 @@ namespace pinfirelabs\pcmIntegrations\bundles;
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
 
-
 class CalendarBowerAssetsBundle extends AssetBundle
 {
-    public $sourcePath = '@vendor/bower-asset';
-
-    public $depends = [
-        CpAsset::class,
-    ];
+    public $sourcePath = '@root/node_modules';
 
     public $js = [
         'moment/min/moment.min.js',

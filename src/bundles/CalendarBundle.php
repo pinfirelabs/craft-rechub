@@ -5,13 +5,12 @@ namespace pinfirelabs\pcmIntegrations\bundles;
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
 
-
 class CalendarBundle extends AssetBundle
 {
     public $sourcePath = '@vendor/threelakessoftware';
 
     public $depends = [
-        CpAsset::class,
+        CalendarBowerAssetsBundle::class,
     ];
 
     public $js = [

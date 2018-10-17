@@ -4,7 +4,8 @@
     "version": "1.0.2",
     "require": {
         "craftcms/cms": "^3.0.0-RC1",
-        "threelakessoftware/shared-events-calendar": "dev-craft-integration"
+        "threelakessoftware/shared-events-calendar": "dev-craft-integration",
+		"flipboxfactory/craft-psr16": "^1.0"
     },
     "autoload": {
         "psr-4": {
