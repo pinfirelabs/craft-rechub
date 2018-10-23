@@ -10,10 +10,6 @@ class EquipmentInventoryBundle extends AssetBundle
 {
     public $sourcePath = '@pinfirelabs/pcmIntegrations/resources';
 
-    public $depends = [
-        CpAsset::class,
-    ];
-
     public $js = [
         'lib/redux.min.js',
         'lib/redux-thunk.min.js',
