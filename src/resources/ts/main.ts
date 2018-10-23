@@ -227,7 +227,12 @@ $(document).ready(() => {
                 })
             }
 
-            obj.availableCount = available;
+			obj.availableCount = available;
+
+			if (!obj.status) {
+				obj.status = available > 0 ? 1 : 2
+				obj.statusText = obj.availableCount + ' items available for rental'
+			}
 
             return obj;
         }

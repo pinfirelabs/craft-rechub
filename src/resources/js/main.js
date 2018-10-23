@@ -144,6 +144,10 @@ $(document).ready(function () {
                 });
             }
             obj.availableCount = available;
+            if (!obj.status) {
+                obj.status = available > 0 ? 1 : 2;
+                obj.statusText = obj.availableCount + ' items available for rental';
+            }
             return obj;
         };
         $.get((localStorage.getItem('cmApiServer') || window['cmApiServer']) + '/api/equipment/status', { structured: 1 })
