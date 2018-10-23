@@ -13,9 +13,9 @@ class UpcomingEvents extends AbstractExtension
         return [
             new \Twig_Filter(
                 'future_events', 
-                function($test) {
+                function($events) {
                     $now = new \DateTime();
-                    return array_filter($test, function($event) use($now) {
+                    return array_filter($events, function($event) use($now) {
                         return $event->earliestStart >= $now;
                     });
                 }

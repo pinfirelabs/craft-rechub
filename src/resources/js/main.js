@@ -1,12 +1,24 @@
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
 };
 var h = {
+    catSorter: function (_a, _b) {
+        var name = _a.name;
+        var name2 = _b.name;
+        return name.toLowerCase() < name2.toLowerCase()
+            ? -1
+            : name2.toLowerCase() < name.toLowerCase()
+                ? 1
+                : 0;
+    },
     isNode: function (node) { return function (n) { return (n === node); }; },
     notIsNode: function (node) { return function (n) { return (n !== node); }; },
     vals: function (obj) { return Object.keys(obj).map(function (k) { return obj[k]; }); },
@@ -111,11 +123,11 @@ $(document).ready(function () {
             ul.append(h.fillLiTemplate(doms$.template, node.name, depth, nodeExpanded, canExpand, store.dispatcher({ type: nodeExpanded ? 'MINIMIZE_NODE' : 'EXPAND_NODE', node: node }), node.status ? node.statusText : node.availableCount + ' items available for checkout', node.status ? 'label-status-' + node.status : 'label-success'));
             if (expanded.some(h.isNode(node))) {
                 var nextDepth = depth + 1;
-                h.vals(node.subCats || {}).map(insertDom(nextDepth));
+                h.vals(node.subCats || {}).sort(h.catSorter).map(insertDom(nextDepth));
                 (node.items || []).map(insertDom(nextDepth));
             }
         }; };
-        h.vals(visData).map(insertDom(0));
+        h.vals(visData).sort(h.catSorter).map(insertDom(0));
         doms$.tree.html(ul);
     });
     store.dispatch(function (dispatch) {
@@ -134,7 +146,7 @@ $(document).ready(function () {
             obj.availableCount = available;
             return obj;
         };
-        $.get(window['cmApiServer'] + '/api/equipment/status', { structured: 1 })
+        $.get((localStorage.getItem('cmApiServer') || window['cmApiServer']) + '/api/equipment/status', { structured: 1 })
             .then(function (res) {
             h.vals(res).forEach(descender);
             return res;

@@ -5,9 +5,9 @@
         "removeComments": true,
         "preserveConstEnums": true,
         "sourceMap": true,
-        "outDir": "./src/assets/js/"
+        "outDir": "./src/resources/js/"
     },
     "include": [
-        "src/assets/ts/**/*"
+        "src/resources/ts/**/*"
     ]
 }

@@ -4,6 +4,14 @@ declare const ReduxThunk;
 
 // helper functions
 const h = {
+    catSorter: ({name}, {name: name2}) => 
+        name.toLowerCase() < name2.toLowerCase()
+            ? -1
+            : name2.toLowerCase() < name.toLowerCase()
+                ? 1
+                : 0
+    ,
+
     // takes a node and provides a function that can be used to check equality
     isNode: node => n => (n === node),
 
@@ -190,13 +198,13 @@ $(document).ready(() => {
             if (expanded.some(h.isNode(node))) {
                 let nextDepth = depth + 1;
 
-                h.vals(node.subCats || {}).map(insertDom(nextDepth));                    
+                h.vals(node.subCats || {}).sort(h.catSorter).map(insertDom(nextDepth));                    
     
                 (node.items || []).map(insertDom(nextDepth));
             }
         }
 
-        h.vals(visData).map(insertDom(0))
+        h.vals(visData).sort(h.catSorter).map(insertDom(0))
 
         doms$.tree.html(ul);
     })
@@ -224,7 +232,7 @@ $(document).ready(() => {
             return obj;
         }
 
-        $.get(window['cmApiServer'] + '/api/equipment/status', { structured: 1 })
+        $.get((localStorage.getItem('cmApiServer') || window['cmApiServer']) + '/api/equipment/status', { structured: 1 })
             .then(res => {
                 h.vals(res).forEach(descender);
                 return res;

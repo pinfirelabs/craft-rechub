@@ -67,7 +67,7 @@ class Plugin extends BasePlugin
         ]);
     }
 	
-	public function guzzle(array $clientOptions, string $method, string $destination, array $request = [], $format = 'json')
+	public static function guzzle(array $clientOptions, string $method, string $destination, array $request = [], $format = 'json')
 	{
 		$client = new \GuzzleHttp\Client($clientOptions);
 		$response = $client->request($method, $destination, $request);
