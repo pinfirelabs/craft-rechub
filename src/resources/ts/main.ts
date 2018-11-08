@@ -247,7 +247,7 @@ $(document).ready(() => {
                 dispatch({ type: 'SET_FETCHING_CLUB_DATA', loading: false })
             })
             .catch(e => {
-                dispatch({ type: 'SET_ERROR', error: 'Something went wrong while retreiving data.' })
+                dispatch({ type: 'SET_ERROR', error: 'Something went wrong while retrieving data.' })
             })
     })
 })

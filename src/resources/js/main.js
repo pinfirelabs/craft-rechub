@@ -159,7 +159,7 @@ $(document).ready(function () {
             dispatch({ type: 'SET_CLUB_DATA', data: res });
             dispatch({ type: 'SET_FETCHING_CLUB_DATA', loading: false });
         })["catch"](function (e) {
-            dispatch({ type: 'SET_ERROR', error: 'Something went wrong while retreiving data.' });
+            dispatch({ type: 'SET_ERROR', error: 'Something went wrong while retrieving data.' });
         });
     });
 });
