@@ -3,39 +3,47 @@
 namespace pinfirelabs\pcmIntegrations\variables;
 
 use Craft;
+use DateTime;
+use craft\helpers\HtmlPurifier;
 use pinfirelabs\pcmIntegrations\Plugin;
 
 class upcomingEventsVariable {
-    public function latestEvents($limit = null, $pcmDomain = null) : array
+    public function latestEvents($limit = null, $searchHandle = 'open_events') : array
 	{
 		if (!$limit)
 		{
 			$limit = Plugin::$plugin->getSettings()['maxUpcomingEvents'];
 		}
 
-		if (empty($pcmDomain))
-		{
-			$pcmDomain = Plugin::$plugin->getSettings()['pcmDomain'];
-		}
-
 		try
 		{
+			$getEventsFunc = function() use ($limit, $searchHandle)
+			{
+				$pcmDomain = Plugin::$plugin->getSettings()['pcmDomain'];
+
+				$res = Plugin::guzzle(
+					['base_uri' => $pcmDomain],
+					'GET', 
+					'/api/event?' . http_build_query([
+						'search' => $searchHandle,
+						'start' => (new DateTime())->format(DateTime::ATOM),
+						'pageSize' => $limit,
+					])
+				);
+
+				array_walk($res, [__CLASS__, 'cleanEventObject']);
+
+				return $res;
+			};
+
+			if (YII_DEBUG)
+			{
+				return $getEventsFunc();
+			}
+
         	return \Craft::$app->cache->getOrSet(
 				__METHOD__ . '-' . md5($pcmDomain),
-				function() use ($pcmDomain, $limit)
-				{
-					$res = Plugin::guzzle(
-						['base_uri' => $pcmDomain],
-						'GET', 
-						'/api/event?featured=1',
-						[
-							"start" => (new \DateTime())->format(\DateTime::ATOM),
-							"pageSize" => $limit,
-						]
-					);
-
-					return array_map("self::makeFriendlyObj", $res);
-				},
+				$getEventsFunc,
 				300
 			);
 		}
@@ -46,32 +54,28 @@ class upcomingEventsVariable {
 		}
     }
     
+	protected static function cleanEventObject(\stdClass $event)
+	{
+		$event->post_date = new DateTime($event->post_date);
+		$event->updated_date = new DateTime($event->updated_date);
 
-    protected static function fixDatesRecursive($obj) {
-        foreach ((array) $obj as $key => $value) {
-            if (is_array($value)) {
-                $obj->$key = array_map("self::fixDatesRecursive", $value);
-            } else if (is_string($value) && preg_match('/\d\d\d\d\-\d\d-\d\dT\d\d:\d\d:\d\d[-+]\d\d:\d\d/', $value)) {
-                $obj->$key = new \DateTime($value);
-            } else if (is_string($value) && preg_match('/\d\d\d\d\-\d\d-\d\d \d\d:\d\d:\d\d/', $value)) {
-                $obj->$key = new \DateTime($value);
-            }
-        }
+		$event->earliestStart = null; 
+		foreach ($event->schedule as $scheduleObj)
+		{
+			$scheduleObj->start = new DateTime($scheduleObj->start);
+			$scheduleObj->end = new DateTime($scheduleObj->end);
 
-        return $obj;
-    }
+			if (
+				!isset($event->earliestStart) ||
+				$scheduleObj->start < $event->earliestStart
+			)
+			{
+				$event->earliestStart = $scheduleObj->start;
+			}
+		}
 
-    protected static function makeFriendlyObj($event) {
-        $event = self::fixDatesRecursive($event);
-
-        $event->description = urldecode($event->description);
-
-        $event->earliestStart = array_reduce($event->schedule, function($carry, $dates) {
-            return $carry === INF
-                ? $dates->start
-                : min($carry, $dates->start);
-        }, INF);
-
-        return $event;
+		$event->description = HtmlPurifier::process(
+			urldecode($event->description)
+		);
     }
 }

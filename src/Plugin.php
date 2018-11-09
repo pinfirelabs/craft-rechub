@@ -74,7 +74,7 @@ class Plugin extends BasePlugin
 		if ($format == 'raw') {
 			$body = (string) $response->getBody();
 		} else {
-			$body = json_decode($response->getBody(), true);
+			$body = json_decode($response->getBody());
 		}
 
 		if ($response->getStatusCode() != 200)
