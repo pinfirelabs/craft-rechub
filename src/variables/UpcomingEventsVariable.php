@@ -17,10 +17,10 @@ class upcomingEventsVariable {
 
 		try
 		{
-			$getEventsFunc = function() use ($limit, $searchHandle)
-			{
-				$pcmDomain = Plugin::$plugin->getSettings()['pcmDomain'];
+			$pcmDomain = Plugin::$plugin->getSettings()['pcmDomain'];
 
+			$getEventsFunc = function() use ($limit, $searchHandle, $pcmDomain)
+			{
 				$res = Plugin::guzzle(
 					['base_uri' => $pcmDomain],
 					'GET', 
