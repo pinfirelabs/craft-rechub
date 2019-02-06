@@ -1,28 +1,32 @@
 {
-    "name": "pinfirelabs/pcm-integrations",
-    "type": "craft-plugin",
-    "version": "1.0.2",
-    "require": {
-        "craftcms/cms": "^3.0.0-RC1",
-        "threelakessoftware/shared-events-calendar": "dev-craft-integration",
-		"flipboxfactory/craft-psr16": "^1.0"
+  "name": "pinfirelabs/pcm-integrations",
+  "type": "craft-plugin",
+  "version": "1.0.3",
+  "require": {
+    "craftcms/cms": "~3.0",
+    "threelakessoftware/shared-events-calendar": "dev-craft-integration",
+    "flipboxfactory/craft-psr16": "dev-craft3.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "pinfirelabs\\pcmIntegrations\\": "src/"
+    }
+  },
+  "extra": {
+    "name": "PCM Integrations",
+    "handle": "pcm-integrations",
+    "hasCpSettings": true,
+    "hasCpSection": false,
+    "class": "pinfirelabs\\pcmIntegrations\\Plugin"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@bitbucket.org:threelakessoftware/shared-events-calendar.git"
     },
-    "autoload": {
-        "psr-4": {
-          "pinfirelabs\\pcmIntegrations\\": "src/"
-        }
-    },
-    "extra": {
-        "name": "PCM Integrations",
-        "handle": "pcm-integrations",
-        "hasCpSettings": true,
-        "hasCpSection": false,
-        "class": "pinfirelabs\\pcmIntegrations\\Plugin"
-    },
-    "repositories": [
-        {
-			"type": "vcs",
-			"url": "git@bitbucket.org:threelakessoftware/shared-events-calendar.git"
-		}
-    ]
+    {
+      "type": "vcs",
+      "url": "https://github.com/pinfirestudios/craft-psr16"
+    }
+  ]
 }
