@@ -1,11 +1,11 @@
 {
   "name": "pinfirelabs/pcm-integrations",
   "type": "craft-plugin",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "require": {
     "craftcms/cms": "~3.0",
     "threelakessoftware/shared-events-calendar": "dev-craft-integration",
-    "flipboxfactory/craft-psr16": "dev-craft3.1"
+    "flipboxfactory/craft-psr16": "^1.0"
   },
   "autoload": {
     "psr-4": {
@@ -23,10 +23,6 @@
     {
       "type": "vcs",
       "url": "git@bitbucket.org:threelakessoftware/shared-events-calendar.git"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/pinfirestudios/craft-psr16"
     }
   ]
 }
