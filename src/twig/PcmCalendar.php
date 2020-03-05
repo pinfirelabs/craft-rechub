@@ -17,16 +17,15 @@ class PcmCalendar extends AbstractExtension
 				$pcmDomain = Plugin::$plugin->getSettings()['pcmDomain'];
 				$maker = new CalendarMaker($pcmDomain, $search);
 
-                return new \Twig_Markup(
-                    <<<OUT
-                        <div class="row">
-                            <div>{$maker->getConScripts()}</div>
-                            <div>{$maker->getFilterRow()}</div>
-                            <div style="background-color: #fff">{$maker->getCalendarRow()}</div>
-                        </div>
-OUT
-                    ,'utf-8'
-                );
+                $html = <<<OUT
+                    <div class="row">
+                        <div>{$maker->getConScripts()}</div>
+                        <div>{$maker->getFilterRow()}</div>
+                        <div style="background-color: #fff">{$maker->getCalendarRow()}</div>
+                    </div>
+OUT;
+
+                return new \Twig_Markup($html, 'utf-8');
             }),
 
         ];
