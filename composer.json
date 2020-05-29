@@ -13,7 +13,7 @@
     }
   },
   "extra": {
-    "name": "PCM Integrations",
+    "name": "RecHub",
     "handle": "pcm-integrations",
     "hasCpSettings": true,
     "hasCpSection": false,
@@ -22,7 +22,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "git@bitbucket.org:threelakessoftware/shared-events-calendar.git"
+      "url": "https://github.com/pinfirelabs/rechub-events-calendar"
     }
   ]
 }
